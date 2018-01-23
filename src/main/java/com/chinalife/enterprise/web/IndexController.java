@@ -133,7 +133,9 @@ public class IndexController {
     @ResponseBody
     public Object updateStatus(@PathVariable Integer id)throws Exception{
         try {
+
             indexService.updateStatus(id);
+
             return  ResultUtil.renderSuccess();
         } catch (Exception e) {
             e.printStackTrace();
@@ -156,6 +158,7 @@ public class IndexController {
 
         String zipFileName = photoPath+file_str+".zip"; // 压缩后的zip文件 可随意定一个磁盘路径或者相对路径
         try {
+
             CustomFileUtil.zip(inputFileName, zipFileName);
         } catch (Exception ex) {
             ex.printStackTrace();
