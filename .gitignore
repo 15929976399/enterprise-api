@@ -16,7 +16,6 @@ target/
 *.ipr
 mvnw
 *.cmd
-####fdsfsdfs
 .mvn
 
 ### NetBeans ###
