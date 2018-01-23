@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chinalife.enterprise.dao.IndexMapper">
+   <select id="queryClaimInfo" resultType="ClaimInfo">
+       SELECT * FROM  claim_info
+       <where>
+           <if test="add_user!=null and add_user!='' ">
+               add_user=#{add_user}
+           </if>
+           <if test="status!=null and status!='' ">
+              AND status=#{status}
+           </if>
+           <if test="type!=null and type!='' ">
+              AND [type]=#{type}
+           </if>
+           <if test="branch!=null and branch!='' ">
+               AND  add_user LIKE  '%'+#{branch}+'%'
+           </if>
+
+       </where>
+       ORDER BY add_time DESC
+   </select>
+    <update id="updateStatus">
+         UPDATE  claim_info SET  status='1' WHERE id=#{id}
+    </update>
+    <select id="queryImgInfo" resultType="ImgInfo">
+         SELECT *  FROM  img_info WHERE  claim_id=#{id}
+    </select>
+    <select id="findClaimInfo" resultType="ClaimInfo">
+        SELECT *  FROM  claim_info WHERE  id=#{id}
+    </select>
+    <select id="queryOperater" resultType="java.util.HashMap">
+        SELECT *  FROM  operator WHERE  pid=#{pid}
+    </select>
+
+</mapper>

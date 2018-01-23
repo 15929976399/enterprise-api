@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chinalife.enterprise.dao.InsuranceMapper">
+
+    <select id="findUser" resultType="java.util.HashMap">
+        select * FROM [user] WHERE user_name=#{user_name}
+    </select>
+    <update id="updatePwd">
+        UPDATE [user] SET pwd=#{new_pwd} WHERE user_name=#{user_name}
+    </update>
+
+    <select id="queryPolicy" resultType="java.util.HashMap">
+        SELECT s.*,d.item_desc prd_name  FROM std s
+        LEFT JOIN  dictionary d
+        ON s.pol_code=d.item_code
+        WHERE s.cust_no=#{user_name}
+        AND d.type='pol_code'
+    </select>
+
+    <select id="queryInsurance" resultType="java.util.HashMap">
+        SELECT c_i.*,d.item_desc prd_name,s.cntr_no  FROM cg_insured c_i
+        LEFT JOIN dictionary d
+        ON c_i.pol_code=d.item_code
+        LEFT JOIN std s
+        ON s.cntr_id=c_i.cntr_id
+        <where>
+            <if test="user_type=='0'.toString()">
+                c_i.id_no=#{user_name}
+            </if>
+            <if test="user_type=='1'.toString()">
+                c_i.id_no=#{employee}
+                AND  s.cust_no=#{user_name}
+            </if>
+        </where>
+    </select>
+    <select id="queryClaims" resultType="java.util.HashMap">
+        SELECT c_s.*,d.item_desc claim_type  FROM std s
+        JOIN cpnst_std c_s
+        ON s.cntr_no=c_s.cntr_no
+        JOIN cg_insured c_i
+        ON s.cntr_id=c_i.cntr_id
+        AND c_s.ipsn_no=c_i.ipsn_no
+        JOIN dictionary d
+        ON c_s.mio_item_code=d.item_code
+        AND d.type='mio_item'
+        <where>
+            <if test="user_type==0">
+                c_i.id_no=#{user_name}
+            </if>
+            <if test="user_type==1">
+                s.cust_no=#{user_name}
+            </if>
+        </where>
+    </select>
+    <select id="queryMtn" resultType="java.util.HashMap">
+        SELECT m_i.*  FROM mtn_info m_i
+        LEFT JOIN std s
+        ON m_i.cntr_no=s.cntr_no
+        WHERE s.cust_no=#{user_name}
+    </select>
+    <insert id="addClaimInfo"  useGeneratedKeys="true" keyProperty="claimInfo.id" parameterType="ClaimInfo">
+        INSERT  INTO claim_info (add_user,[type],add_time,status,file_str)
+        VALUES (#{claimInfo.add_user},#{claimInfo.type},GETDATE(),'0',#{claimInfo.file_str})
+    </insert>
+    <insert id="addImgInfo" parameterType="ImgInfo">
+        INSERT  INTO img_info (claim_id,img_type,img_url)
+        VALUES (#{imgInfo.claim_id},#{imgInfo.img_type},#{imgInfo.img_url})
+    </insert>
+
+</mapper>

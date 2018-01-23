@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta charset="UTF-8"/>
+	<title>微信客户查询后台</title>
+	<style>
+		/*	#img {
+		position:absolute;
+		bottom: 0;
+		z-index: 10;
+		animation: swiper 10s;
+	}
+	@keyframes swiper {
+		0% {
+			transform: translateX(0) rotate(0deg)
+		}
+		50% {
+			transform: translateX(150px) rotate(45deg)
+		}
+		100% {
+			transform: translateX(200px) rotate(60deg) translateY(-20PX)
+		}
+	}*/
+		
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		
+		html,
+		body {
+			height: 100%;
+			width: 100%;
+		}
+		
+		.login-wrap {
+			position: relative;
+			width: 100%;
+			height: 100%;
+			background-color: transparent
+		}
+		
+		.ms-title {
+			position: absolute;
+			top: -25%;
+			left: 0;
+			width: 352px;
+			text-align: center;
+			font-size: 28px;
+			color: #fff;
+		}
+		
+		.ms-login {
+			position: absolute;
+			width: 400px;
+			left: 50%;
+			top: 40%;
+			/*		padding: 40px;s*/
+			border-radius: 5px;
+			-webkit-transform: translate(-50%, -50%);
+			-ms-transform: translate(-50%, -50%);
+			-o-transform: translate(-50%, -50%);
+			transform: translate(-50%, -50%);
+		}
+		
+		.login-btn {
+			text-align: center;
+		}
+		
+		.login-btn button {
+			width: 100%;
+			height: 36px;
+		}
+		
+		@keyframes move_wave {
+			0% {
+				transform: translateX(0) translateZ(0) scaleY(1)
+			}
+			50% {
+				transform: translateX(-25%) translateZ(0) scaleY(0.55)
+			}
+			100% {
+				transform: translateX(-50%) translateZ(0) scaleY(1)
+			}
+		}
+		
+		.waveWrapper {
+			overflow: hidden;
+			position: absolute;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			top: 0;
+			margin: auto;
+			z-index: -1
+		}
+		
+		.waveWrapperInner {
+			position: absolute;
+			width: 100%;
+			overflow: hidden;
+			height: 100%;
+			bottom: -1px;
+			background-image: linear-gradient(to top, #27273c 15%, skyblue 100%);
+			/*
+		background-color: blue;
+		background-color: #86377b;
+		background-color: #27273c;
+*/
+		}
+		
+		.bgTop {
+			z-index: 15;
+			opacity: 0.5;
+		}
+		
+		.bgMiddle {
+			z-index: 10;
+			opacity: 0.75;
+		}
+		
+		.bgBottom {
+			z-index: 5;
+		}
+		
+		.wave {
+			position: absolute;
+			left: 0;
+			width: 200%;
+			height: 100%;
+			background-repeat: repeat no-repeat;
+			background-position: 0 bottom;
+			transform-origin: center bottom;
+		}
+		
+		.waveTop {
+			background-size: 50% 100px;
+		}
+		
+		.waveAnimation .waveTop {
+			animation: move-wave 3s;
+			-webkit-animation: move-wave 3s;
+			-webkit-animation-delay: 1s;
+			animation-delay: 1s;
+		}
+		
+		.waveMiddle {
+			background-size: 50% 120px;
+		}
+		
+		.waveAnimation .waveMiddle {
+			animation: move_wave 10s linear infinite;
+		}
+		
+		.waveBottom {
+			background-size: 50% 100px;
+		}
+		
+		.waveAnimation .waveBottom {
+			animation: move_wave 15s linear infinite;
+		}
+		
+		.ms-form {
+			border-radius: 10px;
+			width: 352px;
+			height: 210px;
+			background-color: #fff;
+		}
+		
+		.ms-form form {
+			width: 300px;
+			margin: 0px auto;
+			padding: 10px
+		}
+		
+		.ms-input {
+			margin-top: 20px;
+		}
+		
+		.ms-input label {
+			text-align: right;
+			vertical-align: middle;
+			float: left;
+			font-size: 14px;
+			color: #48576a;
+			line-height: 1;
+			padding: 11px 12px 11px 0;
+			box-sizing: border-box;
+			display: inline-block;
+			width: 80px;
+		}
+		
+		.ms-input label span {
+			color: #ff4949;
+			margin-right: 4px;
+		}
+		
+		.ms-input input {
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
+			background-color: #fff;
+			background-image: none;
+			border-radius: 4px;
+			border: 1px solid #bfcbd9;
+			box-sizing: border-box;
+			color: #1f2d3d;
+			display: block;
+			font-size: inherit;
+			height: 36px;
+			line-height: 1;
+			outline: 0;
+			padding: 3px 10px;
+			transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
+			/*		width: 100%;*/
+		}
+		
+		.tips {
+			text-align: right;
+			vertical-align: middle;
+			float: left;
+			font-size: 14px;
+			color: #48576a;
+			line-height: 1;
+			padding: 11px 12px 11px 0;
+			box-sizing: border-box;
+			margin-left: 78px
+		}
+		
+		.btn {
+			width: 100%;
+			border-radius: 6px;
+			background: #53d192;
+			border: none;
+			color: #fff;
+			font-size: 14px;
+			line-height: 30px;
+			cursor: pointer
+		}
+
+	</style>
+	<script src="js/jquery.min.js"></script>
+</head>
+
+<body>
+	<div class="login-wrap">
+		<div class="waveWrapper waveAnimation">
+			<div class="waveWrapperInner bgTop">
+				<div class="wave waveTop" style="background-image: url('img/wave-top.png')"></div>
+			</div>
+			<div class="waveWrapperInner bgMiddle">
+				<div class="wave waveMiddle" style="background-image: url('img/wave-mid.png')"></div>
+			</div>
+			<div class="waveWrapperInner bgBottom">
+				<div class="wave waveBottom" style="background-image: url('img/wave-bot.png')"></div>
+			</div>
+			<!-- <img src="/static/img/dolphin.png" alt="" id="img">-->
+		</div>
+		<div class="ms-login">
+			<div class="ms-title logo">微信大客户查询后台</div>
+			<div class="ms-form">
+				<form action="login" id="form">
+					<div class='ms-input'>
+						<label for=""><span>*</span>账号</label>
+						<input type="text"  name="pid"/>
+					</div>
+					<div class='ms-input'>
+						<label for=""><span>*</span>密码</label>
+						<input type="password" name="password"/>
+					</div>
+					<p class="tips" id="tips">欢迎登陆！</p>
+					<div class='ms-input'>
+						<button type="button" class='btn' th:onclick="'javascript:query()'">登录</button>
+					</div>
+				</form>
+			</div>
+
+		</div>
+	</div>
+	<script type="text/javascript" th:inline="javascript">
+		/*<![CDATA[*/
+		function query(){
+			$.ajax({
+				type : "post",
+				url :"login",
+				data :$("#form").serialize(),
+				dataType:"json",
+				success : function(result) {
+					if (result.code==0) {
+						location.href="index";
+					}else{
+						$("#tips").text(result.msg);
+					}
+				}
+			});
+		}
+		/*]]>*/
+
+	</script>
+</body>
+
+</html>
