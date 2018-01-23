@@ -39,6 +39,6 @@ server:
 photoPath: E:/EnterpriseUploadPic/
 downLoadPath: http://10.20.112.57/EnterpriseUploadPic/
 temporaryPath: D:/download/
-WxAppId: wx6ad194cb132c72b6
-WxAppSecret: cd1c8b04c9a7c196771529fc003833e1
+WxAppId: wx6ad194cb13
+WxAppSecret: cd1c8b04c9a7c19677
 
