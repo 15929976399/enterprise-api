@@ -2,8 +2,8 @@
 spring:
   datasource:
     url: jdbc:sqlserver://10.184.1.17:1433;databaseName=enterprise_std
-    username: sxdev
-    password: DevDB2016
+    username: sxd
+    password: DevDB
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
     druid:
           initial-size: 1
